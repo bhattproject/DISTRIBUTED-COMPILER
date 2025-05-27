@@ -71,3 +71,78 @@ python peer2.py
 
 
 ![Screenshot 2025-05-27 060853](https://github.com/user-attachments/assets/1f5146e0-d518-48e9-8ab0-0405aded89c0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+in vs code terminal create environmnet using 
+python3 -m venv venv
+source venv/bin/activate   # On Windows: venv\Scripts\activate
+
+
+
+--------------------------------------------------------------------
+Step 1: Open PowerShell as Administrator
+Click Start, type powershell
+
+Right-click Windows PowerShell → Run as administrator
+
+Click Yes to allow it
+
+Step 2: In the Administrator PowerShell window, run this command to temporarily allow scripts:
+powershell
+Copy
+Edit
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+When prompted, type Y and press Enter
+
+Step 3: Leave this Administrator PowerShell window open.
+Now, without closing this window:
+
+Step 4: Navigate to your project folder in this Administrator PowerShell:
+powershell
+Copy
+Edit
+cd "D:\projectxxx'\DIST1\minitorrent"
+Step 5: Activate your virtual environment here:
+powershell
+Copy
+Edit
+.\venv\Scripts\activate
+
+
+-----------------------------------------------
+ls
+cd ..
+pip install -r requirements.txt
+Since there’s no app.py but you do have a run.sh, this shell script probably runs your server or project.
+
+How to run run.sh on Windows?
+Windows PowerShell doesn’t run .sh scripts natively.
+
+You can either:
+
+Option 1: Run the commands inside run.sh manually in PowerShell.
+
+Option 2: Use Git Bash (or WSL) on Windows to run the .sh script directly.
+
+What to do now?
+Open the run.sh file in VS Code or any text editor and copy-paste the contents here, so I can help translate it to PowerShell commands if needed.
+
+Or, if you have Git Bash installed, open Git Bash terminal, navigate to this folder and run:
+
+bash
+Copy
+Edit
+./run.sh
+
