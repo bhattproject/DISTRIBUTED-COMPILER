@@ -66,3 +66,8 @@ python peer1.py
 cd client
 python peer2.py
 ✅ You now have server + 2 clients running!
+![Screenshot 2025-05-27 060843](https://github.com/user-attachments/assets/0fd9c6fe-dc8f-450f-9f64-edc83e7ab1d9)
+
+
+
+![Screenshot 2025-05-27 060853](https://github.com/user-attachments/assets/1f5146e0-d518-48e9-8ab0-0405aded89c0)
