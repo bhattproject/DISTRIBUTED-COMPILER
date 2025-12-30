@@ -1,0 +1,6 @@
+SERVER_URL = "http://127.0.0.1:5000"
+SUPPORTED_EXTENSIONS = [".c", ".cpp"]
+MAX_FILE_SIZE = 1_000_000  # 1MB
+CACHE_ENABLED = True
+OUTPUT_DIR = "client_output"
+TIMEOUT = 10
