@@ -93,3 +93,87 @@ app.post("/compile", upload.single("file"), (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+
+// simple health check
+app.get("/health", (req, res) => {
+    res.json({
+        status: "ok",
+        uptime: process.uptime(),
+        system: getSystemInfo()
+    });
+});
+
+// register a node
+app.post("/register-node", (req, res) => {
+    const { id, address } = req.body;
+    if (!id || !address) return res.status(400).json({ error: "Invalid node data" });
+
+    const exists = nodes.find(n => n.id === id);
+    if (!exists) {
+        nodes.push({ id, address, lastSeen: Date.now() });
+        log(`Node registered: ${id}`); // simple log
+    }
+
+    res.json({ success: true, nodes });
+});
+
+// list nodes
+app.get("/nodes", (req, res) => {
+    res.json({ count: nodes.length, nodes });
+});
+
+// main compile route
+app.post("/compile", upload.single("file"), (req, res) => {
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+
+    const filePath = req.file.path;
+    const outputBinary = filePath.replace(".cpp", "");
+
+    compileQueue.push({ file: filePath, status: "queued", time: Date.now() });
+    log(`File queued: ${filePath}`);
+
+    // compile locally for now
+    exec(`g++ ${filePath} -o ${outputBinary}`, (error, stdout, stderr) => {
+        compileQueue = compileQueue.filter(item => item.file !== filePath);
+
+        if (error) {
+            log(`Compilation failed: ${filePath}`);
+            return res.json({ success: false, output: stderr });
+        }
+
+        log(`Compiled successfully: ${filePath}`);
+        res.json({
+            success: true,
+            output: "Compilation successful",
+            binary: path.basename(outputBinary)
+        });
+    });
+});
+
+// view queue
+app.get("/queue", (req, res) => {
+    res.json({ queueLength: compileQueue.length, queue: compileQueue });
+});
+
+// logs endpoint
+app.get("/logs", (req, res) => {
+    res.json({ logs });
+});
+
+// clear logs (dev only)
+app.delete("/logs", (req, res) => {
+    logs = [];
+    res.json({ success: true });
+});
+
+// simple error handler
+app.use((err, req, res, next) => {
+    log(err.message);
+    res.status(500).json({ error: "Server error" });
+});
+
+// start server
+app.listen(PORT, () => {
+    log(`Server running on http://localhost:${PORT}`);
+});
